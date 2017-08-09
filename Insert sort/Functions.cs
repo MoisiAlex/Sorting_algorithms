@@ -23,9 +23,6 @@ namespace Insert_sort
             Console.ReadKey();
         }
 
-
-
-
         public static int[] sortarr(int[] foo)
         {
             for (int i = 1; i < foo.Length; i++)
@@ -45,5 +42,84 @@ namespace Insert_sort
             }
             return foo;
         }
+
+
+        static List<int> mergesort(List<int> left, List<int> right)
+        {
+            List<int> result = new List<int>();
+            int lefti = left.Count;
+            int righti = right.Count;
+
+            do
+            {
+                // run this through a for loop
+                if (left[lefti] < right[righti])
+                {
+                    result.Add(left[lefti]);
+                    left.Remove(left[lefti]);
+
+                }
+                else if (left[lefti] > right[righti])
+                {
+                    result.Add(right[righti]);
+                    right.Remove(right[righti]);
+
+                }
+            }
+            while ((right.Count != 0) || (left.Count != 0));
+
+            if (left.Count == 0)
+            {
+
+                for (int i = 0; i < righti; i++)
+                {
+                    result.Add(right[1]);
+                }
+            }
+
+            else if (right.Count == 0)
+            {
+                for (int i = 0; i < lefti; i++)
+                {
+                    result.Add(left[1]);
+                }
+            }
+
+
+            return result;
+        }
+
+        
+        static List<int> sort(List<int> a)
+        {
+
+            if (a.Count == 1) { return a; };
+
+            List<int> foo = new List<int>();
+            List<int> bar = new List<int>();
+            int medium = a.Count / 2;
+
+            for (int n = 0; n < medium; n++)
+            {
+                foo.Add(a[n]);
+            }
+
+            for (int x = medium; x < a.Count; x++)
+            {
+                bar.Add(a[x]);
+            }
+
+            sort(foo);
+            sort(bar);
+
+
+            return mergesort(foo, bar);
+        }
+
+
+
+
+
     }
+
 }
