@@ -23,6 +23,21 @@ namespace Insert_sort
             Console.ReadKey();
         }
 
+
+        public static void printls(List<int> arr)
+        {
+            for (int i = 0; i < arr.Count; i++)
+            {
+                Console.Write(arr[i]);
+                if (i != arr.Count - 1)
+                {
+                    Console.Write(",");
+                }
+            }
+            Console.WriteLine(" ");
+            Console.ReadKey();
+        }
+
         public static int[] sortarr(int[] foo)
         {
             for (int i = 1; i < foo.Length; i++)
@@ -44,53 +59,42 @@ namespace Insert_sort
         }
 
 
-        static List<int> mergesort(List<int> left, List<int> right)
+        static List<int> merge(List<int> left, List<int> right)
         {
             List<int> result = new List<int>();
-            int lefti = left.Count;
-            int righti = right.Count;
-
-            do
+            while (left.Count > 0 || right.Count > 0)
             {
-                // run this through a for loop
-                if (left[lefti] < right[righti])
+                if (left.Count > 0 && right.Count > 0)
                 {
-                    result.Add(left[lefti]);
-                    left.Remove(left[lefti]);
-
+                    if (left.First() <= right.First())  //Comparing First two elements to see which is smaller
+                    {
+                        result.Add(left.First());
+                        left.Remove(left.First());      //Rest of the list minus the first element
+                    }
+                    else
+                    {
+                        result.Add(right.First());
+                        right.Remove(right.First());
+                    }
                 }
-                else if (left[lefti] > right[righti])
+                else if (left.Count > 0)
                 {
-                    result.Add(right[righti]);
-                    right.Remove(right[righti]);
+                    result.Add(left.First());
+                    left.Remove(left.First());
+                }
+                else if (right.Count > 0)
+                {
+                    result.Add(right.First());
 
+                    right.Remove(right.First());
                 }
             }
-            while ((right.Count != 0) || (left.Count != 0));
-
-            if (left.Count == 0)
-            {
-
-                for (int i = 0; i < righti; i++)
-                {
-                    result.Add(right[1]);
-                }
-            }
-
-            else if (right.Count == 0)
-            {
-                for (int i = 0; i < lefti; i++)
-                {
-                    result.Add(left[1]);
-                }
-            }
-
-
             return result;
-        }
+
+         }
 
         
-        static List<int> sort(List<int> a)
+        public static List<int> sort(List<int> a)
         {
 
             if (a.Count == 1) { return a; };
@@ -109,11 +113,9 @@ namespace Insert_sort
                 bar.Add(a[x]);
             }
 
-            sort(foo);
-            sort(bar);
-
-
-            return mergesort(foo, bar);
+            foo = sort(foo);
+            bar = sort(bar);
+            return merge(foo, bar);
         }
 
 
